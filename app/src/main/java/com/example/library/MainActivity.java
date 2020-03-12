@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
     private Handler mHandler = new Handler();
 
-    private String UserEmail,UserName,UserNumber;
+    private String UserEmail,UserName,UserNumber,UserRole;
     private final Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         String UserEmail = prefs.getString("UserEmail", "mailme.vikasb@gmail.com");//"No name defined" is the default value.
         String UserNumber = prefs.getString("PhoneNumber", "9731807100"); //0 is the default value.
         String UserName = prefs.getString("Name", "Vikas BN");
+        String UserRole = prefs.getString("Role", "Admin");
 
 
         TextView email = (TextView) findViewById(R.id.profileemail);

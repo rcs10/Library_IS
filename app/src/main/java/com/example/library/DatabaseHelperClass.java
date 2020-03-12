@@ -69,7 +69,7 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
 
 
     public DatabaseHelperClass(@Nullable Context context) {
-        super(context, databaseName, null, 1);
+        super(context, databaseName, null, 2);
         mcontext = context;
     }
 
@@ -93,7 +93,7 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
                 + facultyHistoryTableISSUEDATE+" date, "+ facultyHistoryTableRETURNDATE+" date, "+ facultyHistoryTableFINEAMT+" varchar(5))");
 
         db.execSQL("create table if not exists "+adminTable+"("+adminTableID+" varchar(20) primary key, "+adminTableNAME +" varchar(15), "
-                +adminTableNUMBER+" char(10), " +adminTableCATEGORY+" char(3))");
+                +adminTableNUMBER+" char(10), " +adminTableCATEGORY+" varchar(10))");
 
         db.execSQL("create table if not exists "+loginTable+"("+loginTableUID+" varchar(20) primary key, "+ loginTablePASSWORD +" varchar(15),"+ loginTableSECQTN +
                 " varchar(50)," + loginTableSECANS + " varchar(50))");
@@ -103,15 +103,15 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("drop table if exists "+ studentTable);
-        db.execSQL("drop table if exists "+ facultyTable);
-        db.execSQL("drop table if exists "+ bookTable);
-        db.execSQL("drop table if exists "+ adminTable);
-        db.execSQL("drop table if exists "+ loginTable);
+        db.execSQL("drop table "+ studentTable);
+        db.execSQL("drop table "+ facultyTable);
+        db.execSQL("drop table "+ bookTable);
+        db.execSQL("drop table "+ adminTable);
+        db.execSQL("drop table "+ loginTable);
         onCreate(db);
     }
 
-    public boolean insertIntoSignUp(String name,String emailid,String number,String password,String securityqtn,String securityans)
+    public boolean insertIntoSignUp(String name,String emailid,String number,String password,String securityqtn,String securityans,String role)
     {
         SQLiteDatabase db = DatabaseHelperClass.this.getWritableDatabase();
 
@@ -119,6 +119,7 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
         valuesIntoAdminTable.put(adminTableID,emailid);
         valuesIntoAdminTable.put(adminTableNAME,name);
         valuesIntoAdminTable.put(adminTableNUMBER,number);
+        valuesIntoAdminTable.put(adminTableCATEGORY,role);
 
         ContentValues valuesIntoLoginTable = new ContentValues();
         valuesIntoLoginTable.put(loginTableUID,emailid);

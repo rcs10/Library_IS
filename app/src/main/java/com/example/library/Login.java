@@ -86,6 +86,7 @@ public class Login extends AppCompatActivity {
                         preferences.putString("UserEmail", email);
                         preferences.putString("PhoneNumber", Tempdb.getString(2));
                         preferences.putString("Name", Tempdb.getString(1));
+                        preferences.putString("Role",Tempdb.getString(3));
                         preferences.apply();
                         startActivity(intentToMainActivity);
                     }

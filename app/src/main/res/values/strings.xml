@@ -60,4 +60,12 @@
     <string name="showFaculty">Show Faculty</string>
     <string name="editaccountinfoTitle">Edit Account Info</string>
     <string name="confirmDetails">Enter Credentials To Proceed</string>
+
+    <string name="category_prompt">Choose your role</string>
+
+    <string-array name="category">
+        <item>Admin</item>
+        <item>Faculty</item>
+        <item>Student</item>
+    </string-array>
 </resources>

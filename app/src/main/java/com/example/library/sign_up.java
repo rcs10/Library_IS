@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 public class
@@ -15,7 +16,7 @@ sign_up extends AppCompatActivity {
 
     Boolean isEmpty = false;
     Boolean isEmpty2 = false;
-    String mname,memailId,mpassword,mconfirmPassword,mnumber,securityqtn,securityans;
+    String mname,memailId,mpassword,mconfirmPassword,mnumber,securityqtn,securityans,category;
 
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     String MobilePattern = "[0-9]{10}";
@@ -34,6 +35,8 @@ sign_up extends AppCompatActivity {
         final EditText confirmPassword = (EditText) findViewById(R.id.signUpPasswordConfirm);
         final EditText Securityqtn = (EditText) findViewById(R.id.securityquestion);
         final EditText Securityans = (EditText) findViewById(R.id.securityanswer);
+        final Spinner spinner1;
+
 
         final LinearLayout securitylayout = (LinearLayout) findViewById(R.id.signupSecurityLayout);
         if(securitylayout.getVisibility()== View.VISIBLE||securitylayout.getVisibility()==View.INVISIBLE)
@@ -41,6 +44,9 @@ sign_up extends AppCompatActivity {
 
         final Button proceedbtn = (Button)findViewById(R.id.signUpProceedBtn);
         proceedbtn.setClickable(true);
+
+        spinner1 = findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 
         final Button signupbtn = (Button)findViewById(R.id.signupBtn);
 
@@ -53,10 +59,17 @@ sign_up extends AppCompatActivity {
                 mnumber = number.getText().toString().trim();
                 mpassword = password.getText().toString().trim();
                 mconfirmPassword = confirmPassword.getText().toString().trim();
-
+                category = spinner1.getSelectedItem().toString().trim();
+                Toast.makeText(sign_up.this, "Selected role--"+category, Toast.LENGTH_SHORT).show();
                 if(mname.isEmpty())
                 {
                     name.setError("Enter Name");
+                    isEmpty = true;
+                }
+
+                if(category.isEmpty())
+                {
+                    Toast.makeText(sign_up.this, "Select the role", Toast.LENGTH_SHORT).show();
                     isEmpty = true;
                 }
 
@@ -107,6 +120,7 @@ sign_up extends AppCompatActivity {
                     password.setEnabled(false);
                     confirmPassword.setEnabled(false);
                     number.setEnabled(false);
+                    spinner1.setEnabled(false);
 
                     if(securitylayout.getVisibility()==View.GONE||securitylayout.getVisibility()==View.INVISIBLE)
                     {
@@ -134,7 +148,7 @@ sign_up extends AppCompatActivity {
 
                             if(!isEmpty2){
                                 DatabaseHelperClass db = new DatabaseHelperClass(sign_up.this);
-                                boolean isInserted = db.insertIntoSignUp(mname,memailId,mnumber,mpassword,securityqtn,securityans);
+                                boolean isInserted = db.insertIntoSignUp(mname,memailId,mnumber,mpassword,securityqtn,securityans,category);
 
                                 if(isInserted)
                                 {
