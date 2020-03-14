@@ -124,7 +124,7 @@ public class add_faculty extends AppCompatActivity {
                     }
                     else if(isInserted == 2)
                     {
-                        Toast.makeText(add_faculty.this,"No faculty' with these details has registered", Toast.LENGTH_LONG).show();
+                        Toast.makeText(add_faculty.this,"No faculty with these details has registered", Toast.LENGTH_LONG).show();
                     }
 
                 }
