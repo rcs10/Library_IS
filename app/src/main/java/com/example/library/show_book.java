@@ -3,6 +3,7 @@ package com.example.library;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,6 @@ public class show_book extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_book);
-
 
         mydb = new DatabaseHelperClass(show_book.this);
         final Cursor tempDB = mydb.getFromBooks();

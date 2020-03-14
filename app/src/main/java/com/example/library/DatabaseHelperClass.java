@@ -143,7 +143,7 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
         }
     }
 
-    public boolean insertIntoStudent(String sname,String emailid,String phone,String department,String ID)
+    public int insertIntoStudent(String sname,String emailid,String phone,String department,String ID)
     {
         SQLiteDatabase db = DatabaseHelperClass.this.getWritableDatabase();
 
@@ -154,23 +154,53 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
         valuesintostudentTable.put(studentTableDEPARTMENT,department);
         valuesintostudentTable.put(studentTableEMAILID,emailid);
 
+        boolean ispresentinadminTable = CheckStudent(emailid);
+        if(ispresentinadminTable)
+            return 2;
+
         long result = db.insert(studentTable,null,valuesintostudentTable);
 
         if(result==-1 ) {
 
             //Toast.makeText(mcontext, "Student exists", Toast.LENGTH_SHORT).show();
-            return false;
+            return 1;
         }
         else
         {
             //Toast.makeText(mcontext, "Student added", Toast.LENGTH_SHORT).show();
-            return true;
+            return 0;
 
         }
     }
 
+    public boolean CheckStudent(String email){
+        SQLiteDatabase db = DatabaseHelperClass.this.getReadableDatabase();
 
-    public boolean insertIntoFaculty(String fname,String emailid,String phone,String department,String ID)
+        Cursor res = db.rawQuery("select * from "+adminTable +" where "+ adminTableID +" = "+ " '"+email+"'",null);
+        if(res!=null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public boolean CheckFaculty(String email){
+        SQLiteDatabase db = DatabaseHelperClass.this.getReadableDatabase();
+
+        Cursor res = db.rawQuery("select * from "+adminTable +" where "+ adminTableID +" = "+ " '"+email+"'",null);
+        if(res!=null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public int insertIntoFaculty(String fname,String emailid,String phone,String department,String ID)
     {
         SQLiteDatabase db = DatabaseHelperClass.this.getWritableDatabase();
 
@@ -181,17 +211,21 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
         valuesintofacultyTable.put(facultyTableDEPARTMENT,department);
         valuesintofacultyTable.put(facultyTableEMAILID,emailid);
 
+        boolean ispresentinadminTable = CheckFaculty(emailid);
+        if(ispresentinadminTable)
+            return 2;
+
         long result = db.insert(facultyTable,null,valuesintofacultyTable);
 
         if(result==-1 ) {
 
             //Toast.makeText(mcontext, "Faculty exists", Toast.LENGTH_SHORT).show();
-            return false;
+            return 1;
         }
         else
         {
             //Toast.makeText(mcontext, "Faculty added", Toast.LENGTH_SHORT).show();
-            return true;
+            return 0;
 
         }
     }
@@ -325,6 +359,45 @@ public class DatabaseHelperClass extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from "+studentHistoryTable,null);
         return res;
     }
+
+    public Cursor getParticularHistory(String role,String UserEmail)
+    {
+        SQLiteDatabase db = DatabaseHelperClass.this.getWritableDatabase();
+        Cursor res1;
+        String sid = null;
+        if(role.equals("Student"))
+        {
+            Cursor res = getstudent(UserEmail);
+            while (res.moveToNext())
+            {
+                sid = res.getString(0);
+
+            }
+            res1 = db.rawQuery("select * from " + studentHistoryTable + " where " + studentHistoryTableISSUERID + " = " + "'" + sid + "'", null);
+            return res1;
+
+        }
+        else
+        {
+            Cursor res = db.rawQuery("select * from "+facultyTable +" where "+facultyTableEMAILID +" = "+ " '"+UserEmail+"'",null);
+            while (res.moveToNext())
+            {
+                sid = res.getString(0);
+
+            }
+                 res1 = db.rawQuery("select * from " + facultyHistoryTable + " where " + facultyHistoryTableISSUERID + " = " + " '" + sid + "'", null);
+                return res1;
+        }
+    }
+
+    public Cursor getstudent(String UserEmail)
+    {
+        SQLiteDatabase db = DatabaseHelperClass.this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+studentTable +" where "+studentTableEMAILID +" = "+ " '"+UserEmail+"'",null);
+        return res;
+    }
+
+
 
     public Cursor getAllFromFacultyHistory()
     {

@@ -89,10 +89,14 @@ public class MainActivity extends AppCompatActivity {
 //        UserName = intentFrom.getStringExtra("Name");
 //        UserNumber =intentFrom.getStringExtra("PhoneNumber");
 
+
         SharedPreferences prefs = getSharedPreferences("MyFiles", MODE_PRIVATE);
         String UserEmail = prefs.getString("UserEmail", "mailme.vikasb@gmail.com");//"No name defined" is the default value.
         String UserNumber = prefs.getString("PhoneNumber", "9731807100"); //0 is the default value.
         String UserName = prefs.getString("Name", "Vikas BN");
+        String UserRole = prefs.getString("Role","Admin");
+        //Toast.makeText(this, "Logged in as "+UserRole, Toast.LENGTH_SHORT).show();
+
 
         TextView email = (TextView) findViewById(R.id.profileemail);
         TextView name = (TextView) findViewById(R.id.profilename);
@@ -105,17 +109,28 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<DataClass> items = new ArrayList<>();
 
+
+
         if (items.size() == 0) {
-            items.add(new DataClass(R.drawable.add_book,"Add Book",new Intent(MainActivity.this,add_book.class) ));
-            items.add(new DataClass(R.drawable.student,"Add Student",new Intent(MainActivity.this,add_student.class) ));
-            items.add(new DataClass(R.drawable.teacher,"Add Faculty",new Intent(MainActivity.this,add_faculty.class) ));
-            items.add(new DataClass(R.drawable.issue_book,"Issue Book",new Intent(MainActivity.this,issue_to_both.class) ));
-            items.add(new DataClass(R.drawable.return_book,"Return Book",new Intent(MainActivity.this,return_from_both.class)));
+
+            if(UserRole.equals("Admin"))
+            {
+                items.add(new DataClass(R.drawable.add_book,"Add Book",new Intent(MainActivity.this,add_book.class) ));
+                items.add(new DataClass(R.drawable.student,"Add Student",new Intent(MainActivity.this,add_student.class) ));
+                items.add(new DataClass(R.drawable.teacher,"Add Faculty",new Intent(MainActivity.this,add_faculty.class) ));
+                items.add(new DataClass(R.drawable.issue_book,"Issue Book",new Intent(MainActivity.this,issue_to_both.class) ));
+                items.add(new DataClass(R.drawable.return_book,"Return Book",new Intent(MainActivity.this,return_from_both.class)));
+                items.add(new DataClass(R.drawable.show_student,"Show Students",new Intent(MainActivity.this,show_students.class)));
+                items.add(new DataClass(R.drawable.show_faculty,"Show Faculty",new Intent(MainActivity.this,show_faculty.class)));
+                items.add(new DataClass(R.drawable.edit_info,"Edit users",new Intent(MainActivity.this,editinfo.class)));
+                items.add(new DataClass(R.drawable.history,"Show History",new Intent(MainActivity.this,history_for.class) ));
+            }
+            else
+            {
+                items.add(new DataClass(R.drawable.history,"Show History",new Intent(MainActivity.this,your_history.class) ));
+            }
+
             items.add(new DataClass(R.drawable.show_book,"Show Books",new Intent(MainActivity.this,show_book.class) ));
-            items.add(new DataClass(R.drawable.show_student,"Show Students",new Intent(MainActivity.this,show_students.class)));
-            items.add(new DataClass(R.drawable.show_faculty,"Show Faculty",new Intent(MainActivity.this,show_faculty.class)));
-            items.add(new DataClass(R.drawable.edit_info,"Edit users",new Intent(MainActivity.this,editinfo.class)));
-            items.add(new DataClass(R.drawable.history,"Show History",new Intent(MainActivity.this,history_for.class) ));
         }
         ViewAdapter adapter = new ViewAdapter(MainActivity.this, items);
 

@@ -89,6 +89,7 @@ public class Login extends AppCompatActivity {
                         preferences.putString("Role",Tempdb.getString(3));
                         preferences.apply();
                         startActivity(intentToMainActivity);
+
                     }
                     else
                     {

@@ -103,7 +103,7 @@ public class add_student extends AppCompatActivity {
                 if(!iserror)
                 {
                     DatabaseHelperClass db = new DatabaseHelperClass(add_student.this);
-                    boolean isInserted;
+                    int isInserted;
                     if(mname.isEmpty()) {
                         isInserted = db.insertIntoStudent(fname + " " + lname, email, phone, department, id);
                     }
@@ -112,22 +112,22 @@ public class add_student extends AppCompatActivity {
                         isInserted = db.insertIntoStudent(fname + " " + mname + " " + lname, email, phone, department, id);
                     }
 
-                    if(isInserted)
+                    if(isInserted == 0)
                     {
                         Toast.makeText(add_student.this, "Student added", Toast.LENGTH_SHORT).show();
                         Intent submitIntent = new Intent(add_student.this,MainActivity.class);
                         startActivity(submitIntent);
                     }
-                    else
+                    else if(isInserted == 1)
                     {
                         Toast.makeText(add_student.this, "Student already exists", Toast.LENGTH_SHORT).show();
                     }
+                    else if(isInserted == 2)
+                    {
+                        Toast.makeText(add_student.this,"No student with these details has registered", Toast.LENGTH_LONG).show();
+                    }
 
                 }
-
-
-
-
             }
         });
 
